@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>US Historical Political Map</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .state {
+            stroke: white;
+            stroke-width: 1px;
+        }
+        .state:hover {
+            stroke-width: 2px;
+            stroke: black;
+        }
+        .slider-container {
+            margin: 20px;
+            width: 80%;
+        }
+        .tooltip {
+            position: absolute;
+            padding: 10px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            pointer-events: none;
+            display: none;
+        }
+        .legend {
+            margin-top: 20px;
+        }
+        .legend-item {
+            display: inline-block;
+            margin-right: 20px;
+        }
+        .legend-color {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        .loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>US Political History Map</h1>
+    <div>
+        <label for="yearSlider">Year: <span id="yearDisplay">1861</span></label>
+        <input type="range" id="yearSlider" class="slider-container" min="1861" max="2020" value="1861" step="4">
+    </div>
+    <div id="map"></div>
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #2166ac"></div>
+            <span>Union/Democratic</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #b2182b"></div>
+            <span>Confederate/Republican</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #ccc"></div>
+            <span>Not a State/No Data</span>
+        </div>
+    </div>
+    <div class="tooltip"></div>
+    <div id="loading" class="loading">Loading data...</div>
+
+    <script>
+        // Constants
+        const width = 960;
+        const height = 600;
+        const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+
+        // Create SVG
+        const svg = d3.select("#map")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        // Create projection and path generator
+        const projection = d3.geoAlbersUsa()
+            .translate([width / 2, height / 2])
+            .scale(1200);
+
+        const path = d3.geoPath().projection(projection);
+
+        // Create tooltip
+        const tooltip = d3.select(".tooltip");
+
+        // Function to process Google Sheets data
+        function processGoogleSheetsData(data) {
+            const electionData = {};
+            const years = new Set();
+            
+            // Process each row of the data
+            data.forEach(row => {
+                const year = parseInt(row.Year);
+                const state = row.State;
+                const party = row.Party;
+                const margin = parseFloat(row.Margin) || 0;
+                
+                years.add(year);
+                
+                if (!electionData[year]) {
+                    electionData[year] = {
+                        Democratic: [],
+                        Republican: []
+                    };
+                }
+                
+                if (party === "Democratic") {
+                    electionData[year].Democratic.push({
+                        state: state,
+                        margin: margin
+                    });
+                } else if (party === "Republican") {
+                    electionData[year].Republican.push({
+                        state: state,
+                        margin: margin
+                    });
+                }
+            });
+
+            // Update slider range
+            const minYear = Math.min(...years);
+            const maxYear = Math.max(...years);
+            const slider = document.getElementById("yearSlider");
+            slider.min = minYear;
+            slider.max = maxYear;
+            slider.value = minYear;
+
+            return electionData;
+        }
+
+        // Load data from Google Sheets
+        async function loadGoogleSheetsData() {
+            // Replace this URL with your published Google Sheets CSV URL
+            const GOOGLE_SHEETS_URL = 'YOUR_PUBLISHED_GOOGLE_SHEETS_CSV_URL';
+            
+            try {
+                const response = await fetch(GOOGLE_SHEETS_URL);
+                const csvText = await response.text();
+                const data = d3.csvParse(csvText);
+                return processGoogleSheetsData(data);
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('loading').innerHTML = 'Error loading data. Please check the console.';
+                return null;
+            }
+        }
+
+        // Load US map data and Google Sheets data
+        Promise.all([
+            d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json"),
+            loadGoogleSheetsData()
+        ]).then(function([us, electionData]) {
+            // Hide loading message
+            document.getElementById('loading').style.display = 'none';
+
+            // Draw states
+            svg.append("g")
+                .selectAll("path")
+                .data(topojson.feature(us, us.objects.states).features)
+                .enter()
+                .append("path")
+                .attr("class", "state")
+                .attr("d", path)
+                .on("mouseover", function(event, d) {
+                    const year = document.getElementById("yearSlider").value;
+                    const yearData = electionData[year];
+                    let stateInfo = "";
+                    
+                    if (yearData) {
+                        const democraticState = yearData.Democratic.find(s => s.state === d.id);
+                        const republicanState = yearData.Republican.find(s => s.state === d.id);
+                        
+                        if (democraticState) {
+                            stateInfo = `${d.properties.name}<br>Democratic +${democraticState.margin.toFixed(1)}%`;
+                        } else if (republicanState) {
+                            stateInfo = `${d.properties.name}<br>Republican +${republicanState.margin.toFixed(1)}%`;
+                        } else {
+                            stateInfo = `${d.properties.name}<br>No data`;
+                        }
+                    }
+
+                    tooltip.style("display", "block")
+                        .html(stateInfo)
+                        .style("left", (event.pageX + 10) + "px")
+                        .style("top", (event.pageY - 10) + "px");
+                })
+                .on("mouseout", function() {
+                    tooltip.style("display", "none");
+                });
+
+            // Update colors based on year
+            function updateMap(year) {
+                d3.select("#yearDisplay").text(year);
+                
+                const yearData = electionData[year];
+                if (!yearData) return;
+
+                svg.selectAll(".state")
+                    .transition()
+                    .duration(200)
+                    .style("fill", function(d) {
+                        const democraticState = yearData.Democratic.find(s => s.state === d.id);
+                        const republicanState = yearData.Republican.find(s => s.state === d.id);
+                        
+                        if (democraticState) {
+                            const intensity = Math.min(democraticState.margin / 20, 1); // Adjust divisor to control color intensity
+                            return d3.interpolate("#ffffff", "#2166ac")(intensity);
+                        } else if (republicanState) {
+                            const intensity = Math.min(republicanState.margin / 20, 1);
+                            return d3.interpolate("#ffffff", "#b2182b")(intensity);
+                        }
+                        return "#ccc";
+                    });
+            }
+
+            // Initialize map
+            updateMap(document.getElementById("yearSlider").value);
+
+            // Add slider event listener
+            d3.select("#yearSlider").on("input", function() {
+                updateMap(+this.value);
+            });
+        });
+    </script>
+</body>
+</html>
