@@ -55,6 +55,16 @@
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
+        .debug {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: white;
+            padding: 10px;
+            border: 1px solid #ddd;
+            max-height: 200px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
@@ -67,11 +77,15 @@
     <div class="legend">
         <div class="legend-item">
             <div class="legend-color" style="background-color: #2166ac"></div>
-            <span>Union/Democratic</span>
+            <span>Democratic</span>
         </div>
         <div class="legend-item">
             <div class="legend-color" style="background-color: #b2182b"></div>
-            <span>Confederate/Republican</span>
+            <span>Republican</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #33a02c"></div>
+            <span>Independent</span>
         </div>
         <div class="legend-item">
             <div class="legend-color" style="background-color: #ccc"></div>
@@ -80,8 +94,21 @@
     </div>
     <div class="tooltip"></div>
     <div id="loading" class="loading">Loading data...</div>
+    <div id="debug" class="debug"></div>
 
     <script>
+        // State abbreviation to FIPS code mapping
+        const stateToFips = {
+            'AL': '01', 'AK': '02', 'AZ': '04', 'AR': '05', 'CA': '06', 'CO': '08', 'CT': '09',
+            'DE': '10', 'FL': '12', 'GA': '13', 'HI': '15', 'ID': '16', 'IL': '17', 'IN': '18',
+            'IA': '19', 'KS': '20', 'KY': '21', 'LA': '22', 'ME': '23', 'MD': '24', 'MA': '25',
+            'MI': '26', 'MN': '27', 'MS': '28', 'MO': '29', 'MT': '30', 'NE': '31', 'NV': '32',
+            'NH': '33', 'NJ': '34', 'NM': '35', 'NY': '36', 'NC': '37', 'ND': '38', 'OH': '39',
+            'OK': '40', 'OR': '41', 'PA': '42', 'RI': '44', 'SC': '45', 'SD': '46', 'TN': '47',
+            'TX': '48', 'UT': '49', 'VT': '50', 'VA': '51', 'WA': '53', 'WV': '54', 'WI': '55',
+            'WY': '56'
+        };
+
         // Constants
         const width = 960;
         const height = 600;
@@ -111,32 +138,44 @@
             // Process each row of the data
             data.forEach(row => {
                 const year = parseInt(row.Year);
-                const state = row.State;
+                const stateAbbr = row.State.toUpperCase();
+                const stateId = stateToFips[stateAbbr];
                 const party = row.Party;
                 const margin = parseFloat(row.Margin) || 0;
+                
+                if (!stateId) {
+                    console.warn(`No FIPS code found for state: ${stateAbbr}`);
+                    return;
+                }
                 
                 years.add(year);
                 
                 if (!electionData[year]) {
                     electionData[year] = {
                         Democratic: [],
-                        Republican: []
+                        Republican: [],
+                        Independent: []
                     };
                 }
                 
                 if (party === "Democratic") {
                     electionData[year].Democratic.push({
-                        state: state,
+                        state: stateId,
                         margin: margin
                     });
                 } else if (party === "Republican") {
                     electionData[year].Republican.push({
-                        state: state,
+                        state: stateId,
+                        margin: margin
+                    });
+                } else if (party === "Independent") {
+                    electionData[year].Independent.push({
+                        state: stateId,
                         margin: margin
                     });
                 }
             });
-
+            
             // Update slider range
             const minYear = Math.min(...years);
             const maxYear = Math.max(...years);
@@ -150,7 +189,6 @@
 
         // Load data from Google Sheets
         async function loadGoogleSheetsData() {
-            // Replace this URL with your published Google Sheets CSV URL
             const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTwWkkHTfDKKZetw4fTnCO9ingW_7UXbFqZJ0cVyejun3aWmKUJaUIud3AnRD6-8hQoo5U0wtslfqgs/pub?gid=0&single=true&output=csv';
             
             try {
@@ -173,6 +211,12 @@
             // Hide loading message
             document.getElementById('loading').style.display = 'none';
 
+            // Create state name lookup
+            const stateNames = {};
+            topojson.feature(us, us.objects.states).features.forEach(d => {
+                stateNames[d.id] = d.properties.name;
+            });
+
             // Draw states
             svg.append("g")
                 .selectAll("path")
@@ -189,13 +233,16 @@
                     if (yearData) {
                         const democraticState = yearData.Democratic.find(s => s.state === d.id);
                         const republicanState = yearData.Republican.find(s => s.state === d.id);
+                        const independentState = yearData.Independent.find(s => s.state === d.id);
                         
                         if (democraticState) {
-                            stateInfo = `${d.properties.name}<br>Democratic +${democraticState.margin.toFixed(1)}%`;
+                            stateInfo = `${stateNames[d.id]}<br>Democratic +${democraticState.margin.toFixed(1)}%`;
                         } else if (republicanState) {
-                            stateInfo = `${d.properties.name}<br>Republican +${republicanState.margin.toFixed(1)}%`;
+                            stateInfo = `${stateNames[d.id]}<br>Republican +${republicanState.margin.toFixed(1)}%`;
+                        } else if (independentState) {
+                            stateInfo = `${stateNames[d.id]}<br>Independent +${independentState.margin.toFixed(1)}%`;
                         } else {
-                            stateInfo = `${d.properties.name}<br>No data`;
+                            stateInfo = `${stateNames[d.id]}<br>No data`;
                         }
                     }
 
@@ -221,13 +268,17 @@
                     .style("fill", function(d) {
                         const democraticState = yearData.Democratic.find(s => s.state === d.id);
                         const republicanState = yearData.Republican.find(s => s.state === d.id);
+                        const independentState = yearData.Independent.find(s => s.state === d.id);
                         
                         if (democraticState) {
-                            const intensity = Math.min(democraticState.margin / 20, 1); // Adjust divisor to control color intensity
+                            const intensity = Math.min(democraticState.margin / 20, 1);
                             return d3.interpolate("#ffffff", "#2166ac")(intensity);
                         } else if (republicanState) {
                             const intensity = Math.min(republicanState.margin / 20, 1);
                             return d3.interpolate("#ffffff", "#b2182b")(intensity);
+                        } else if (independentState) {
+                            const intensity = Math.min(independentState.margin / 20, 1);
+                            return d3.interpolate("#ffffff", "#33a02c")(intensity);
                         }
                         return "#ccc";
                     });
