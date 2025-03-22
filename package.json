@@ -1,8 +1,8 @@
 {
   "scripts": {
-    "start": "copy \\xmrit-bg.png dist\\ && parcel index.html",
-    "build": "parcel build index.html && copy xmrit-bg.png dist\\"
-  },
+  "start": "copy \\xmrit-bg.png dist\\ && parcel index.html",
+  "build": "parcel build index.html --public-url ./ && copy xmrit-bg.png dist\\"
+},
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.9",
     "@tailwindcss/typography": "^0.5.15",
