@@ -3,6 +3,8 @@
 
 <head>
     <title>kurjen | The Process Architect</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="description" content="Construction Financial and Data Consulting" />
@@ -11,10 +13,10 @@
         rel="stylesheet" type="text/css" />
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-    <link rel="icon" href="kurjen.4a39f980.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="kurjen.4a39f980.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="kurjen.4a39f980.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="kurjen.4a39f980.png">
+    <link rel="icon" href="kurjen.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="kurjen.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="kurjen.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="kurjen.png">
     <style>
         /* Reset and base styles */
         * {
@@ -26,41 +28,41 @@
         body {
             font-family: 'Inter', sans-serif;
             line-height: 1.0;
-            background-color: #FAFAFA;
-            color: #3B3B3B;
+            background-color: #fffff8;
+            color: #111111;
         }
-        
+
         /* Header styles */
         header {
             border-bottom: 1px solid #CBD5E0;
             padding: 1rem 1rem 1.25rem 1rem;
             margin-bottom: 1.25rem;
-            background-color: white;
+            background-color: #fffff8;
         }
-        
+
         header .flex {
             display: flex;
-            justify-content: space-between;
+            z justify-content: space-between;
             align-items: stretch;
         }
-        
+
         @media (min-width: 768px) {
             header .flex {
                 align-items: center;
             }
         }
-        
+
         header a.flex {
             display: flex;
             align-items: center;
         }
-        
+
         header img {
             height: 4rem;
             width: 4rem;
             margin-right: 0.25rem;
         }
-        
+
         header h1 {
             font-size: 2rem;
             font-weight: 700;
@@ -68,15 +70,15 @@
             letter-spacing: -0.05em;
             margin-bottom: 0;
         }
-        
+
         @media (min-width: 768px) {
             header h1 {
                 font-size: 2.5rem;
             }
         }
-        
+
         header button {
-            background-color: white;
+            background-color: #fffff8;
             border: none;
             color: #A0AEC0;
             padding: 0.5rem;
@@ -85,59 +87,59 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         header button:hover {
-            color: #2B6CB0;
+            color: #fffff8;
         }
-        
+
         header nav {
             display: none;
         }
-        
+
         @media (min-width: 1024px) {
             header nav {
                 display: block;
                 margin-top: 0;
             }
         }
-        
+
         header nav a {
             padding: 0.75rem 1rem;
             text-decoration: none;
         }
-        
+
         header nav a:hover {
-            color: #2B6CB0;
+            color: #fffff8;
         }
-        
+
         header nav a.active {
-            background-color: #1A202C;
-            color: white;
+            background-color: #111111;
+            color: #fffff8;
             border-radius: 0.5rem;
         }
-        
+
         header nav a.active:hover {
-            background-color: #2B6CB0;
+            background-color: #fffff8;
         }
-        
+
         /* Mobile menu */
         header .mobile-menu {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            background-color: white;
+            background-color: #fffff8;
             padding: 0.5rem;
             z-index: 50;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             border-radius: 0.5rem;
             transform-origin: top;
         }
-        
+
         header .mobile-menu [x-cloak] {
             display: none;
         }
-        
+
         /* Main layout */
         #wrapper {
             display: flex;
@@ -182,7 +184,7 @@
         }
 
         mark {
-            color: #FF7A00;
+
             background-color: transparent;
         }
 
@@ -215,14 +217,14 @@
             font-size: 1.25em;
             font-weight: 200;
             border-radius: 2.5rem;
-            background-color: #FF7A00;
-            color: #FFFFFF;
+            background-color: #D6E6FF;
+            color: #111111;
             text-decoration: none;
             transition: background-color 0.375s ease;
         }
 
         .button:hover {
-            background-color: #FF8719;
+            background-color: #FFCA99;
         }
 
         /* Logo grid */
@@ -278,10 +280,10 @@
 
         /* Orange section */
         .highlight-section {
-            background-color: #FF7900;
+            background-color: #FFCA99;
             padding: 6.875rem 0;
             margin: 6rem 0;
-            color: #FFFFFF;
+            color: #111111;
             text-align: center;
         }
 
@@ -328,12 +330,12 @@
             height: 3em;
             width: 3em;
             border-radius: 1.75rem;
-            background-color: #E8E8E8;
+            background-color: #fffff8;
             transition: background-color 0.25s ease, transform 0.25s ease;
         }
 
         .icons a:hover {
-            background-color: rgba(255, 255, 255, 0.941);
+            background-color: #fffff8;
             transform: scale(1.06);
         }
 
@@ -346,8 +348,7 @@
         hr {
             border: 0;
             height: 2px;
-            background-color: rgba(0, 0, 0, 0.059);
-            margin: 4rem 0;
+            background-color: #111111 margin: 4rem 0;
         }
 
         .text-center {
@@ -406,30 +407,27 @@
     </style>
 </head>
 
-<body>
+<body class="max-w-screen-2xl mx-auto">
     <!-- Header from first document -->
-    <header class="border-b border-slate-400 mb-5 pb-5 pt-3 px-4" x-data="{ isOpen: false }">
-        <div class="flex items-stretch justify-between md:items-center"> 
-            <a class="flex items-center" href="./"> 
-                <img class="h-16 mr-1 w-16" src="kurjen.4a39f980.png">
+
+    <header class="border-b border-slate-400 col-span-12 mb-5 pb-5 pt-3 px-4" x-data="{ isOpen: false }">
+        <div class="flex items-stretch justify-between md:items-center"> <a class="flex items-center" href="./"> <img
+                    class="h-16 mr-1 w-16" src="kurjen.png">
                 <div class="flex flex-col justify-start">
                     <h1 class="font-bold font-sans md:text-4xl text-2xl text-gray-700 tracking-tight">kurjen</h1>
                 </div>
-            </a> 
-            <button type="button"
+            </a> <button type="button"
                 class="bg-white focus-ring-inset focus:outline-none focus:ring-2 focus:ring-white hover:text-blue-800 inline-flex items-center justify-center lg:hidden p-2 rounded-md text-gray-400"
-                aria-expanded="false" @click="isOpen = !isOpen"> 
-                <span class="sr-only">Open main menu</span> 
-                <svg fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" class="h-5 w-5" viewBox="0 0 24 24">
+                aria-expanded="false" @click="isOpen = !isOpen"> <span class="sr-only">Open main menu</span> <svg
+                    fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" class="h-5 w-5"
+                    viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                </svg> 
-            </button>
-            <nav class="hidden lg:block md:mt-0 md:text-base mt-5 text-sm"> 
-                <a class="hover:text-blue-700 md:px-4 px-2 py-3" href="https://kurjen.com">kurjen.com</a> 
-                <a class="hover:text-blue-700 md:px-4 px-2 py-3" href="services.html">Services</a> 
-                <a class="hover:text-blue-700 md:px-4 px-2 py-3" href="tools.html">Tools</a> 
-                <a class="bg-slate-800 hover:bg-blue-700 md:px-4 px-2 py-3 rounded-lg text-white" href="#contact">Contact</a> 
-            </nav>
+                </svg> </button>
+            <nav class="hidden lg:block md:mt-0 md:text-base mt-5 text-sm ml-auto"> <a
+                    class="hover:text-blue-700 md:px-4 px-2 py-3" href="docs/index.html">XmR Tool</a> <a
+                    class="hover:text-blue-700 md:px-4 px-2 py-3" href="#contact">Contact Me</a> <a
+                    class="hover:text-blue-700 md:px-4 px-2 py-3" href="projects.html">Detailed Projects</a> <a
+                    class="bg-slate-800 hover:bg-blue-700 md:px-4 px-2 py-3 rounded-lg text-white"> </nav>
             <div x-cloak x-show="isOpen" x-transition:enter="duration-150 ease-out"
                 x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                 x-transition:leave="duration-100 ease-in" x-transition:leave-start="opacity-100 scale-100"
@@ -437,39 +435,31 @@
                 class="absolute inset-x-0 lg:hidden origin-top p-2 top-0 transform transition z-50">
                 <div class="bg-white overflow-hidden ring-1 ring-black ring-opacity-5 rounded-lg shadow-md">
                     <div class="flex items-center justify-between pt-4 px-5">
-                        <div> <a href="./"><img class="h-8 w-auto" src="kurjen.4a39f980.png" alt></a> </div>
-                        <div class="-mr-2"> 
-                            <button type="button"
+                        <div> <a href="./"><img class="h-8 w-auto" src="kurjen.png" alt></a> </div>
+                        <div class="-mr-2"> <button type="button"
                                 class="bg-white focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-inset hover:bg-gray-100 inline-flex items-center justify-center p-2 rounded-md text-gray-400"
-                                @click="isOpen = !isOpen"> 
-                                <span class="sr-only">Close menu</span> 
-                                <svg fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" class="h-6 w-6" viewBox="0 0 24 24">
+                                @click="isOpen = !isOpen"> <span class="sr-only">Close menu</span> <svg fill="none"
+                                    stroke="currentColor" stroke-width="2" aria-hidden="true" class="h-6 w-6"
+                                    viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                                </svg> 
-                            </button> 
-                        </div>
+                                </svg> </button> </div>
                     </div>
                     <div class="pb-6 pt-5">
-                        <div class="px-2 space-y-1"> 
-                            <a class="block font-medium hover:bg-gray-50 lg:hover:bg-white lg:hover:text-purple-700 lg:px-2 lg:py-0 px-3 py-2 rounded-md sm:font-normal text-base text-gray-900"
-                                href="https://kurjen.com">kurjen.com</a> 
-                            <a class="block font-medium hover:bg-gray-50 lg:hover:bg-white lg:hover:text-purple-700 lg:px-2 lg:py-0 px-3 py-2 rounded-md sm:font-normal text-base text-gray-900"
-                                href="services.html">Services</a> 
-                            <a class="block font-medium hover:bg-gray-50 lg:hover:bg-white lg:hover:text-purple-700 lg:px-2 lg:py-0 px-3 py-2 rounded-md sm:font-normal text-base text-gray-900"
-                                href="tools.html">Tools</a> 
-                        </div>
-                        <div class="mt-6 px-5"> 
-                            <a href="#contact"
-                                class="block border border-slate-900 hover:bg-blue-900 hover:text-white px-4 py-3 rounded-md text-center text-slate-900 w-full">
-                                Contact
-                            </a> 
-                        </div>
+                        <div class="px-2 space-y-1"> <a
+                                class="block font-medium hover:bg-gray-50 lg:hover:bg-white lg:hover:text-purple-700 lg:px-2 lg:py-0 px-3 py-2 rounded-md sm:font-normal text-base text-gray-900"
+                                href="docs/index.html">XmR Tool</a> <a
+                                class="block font-medium hover:bg-gray-50 lg:hover:bg-white lg:hover:text-purple-700 lg:px-2 lg:py-0 px-3 py-2 rounded-md sm:font-normal text-base text-gray-900"
+                                href="projects.html">Detailed Projects</a> </div>
+                        <div class="mt-6 px-5"> <a href="#contact"
+                                class="block border border-slate-900 hover:bg-blue-900 hover:text-white px-4 py-3 rounded-md text-center text-slate-900 w-full">Contact
+                                Me</a> </div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
-    
+
+
     <!-- Content from second document -->
     <div id="wrapper">
         <div id="main">
@@ -492,19 +482,26 @@
 
                 <h2>What it looks like to work with me:</h2>
                 <p>Working with me could look like a few different things.</p>
-                <p>1. We meet and discuss a specific problem. I'll propose a solution, sometimes with Excel, sometimes
-                    with other software you already use or is low cost.</p>
-                <p>2. If it's more than a one time, short fix, I'll propose a full project with service agreement and
-                    schedule.</p>
-                <p>I break things into $500 value milestones.</p>
-                <p>3. I have a few clients that have me as an advisor.<br>
-                    - We have monthly (or more often) meetings<br>
-                    - any projects go to the front of the line<br>
-                    - We'll talk about your goals and how to best reach them<br>
-                    - I'll help you use your data to make better decisions</p>
-                <p>This starts at $1,000/month for newer, smaller businesses, larger companies with complex systems will
+                <p>We meet and discuss a specific problem. 
+                    I'll propose a solution, sometimes with Excel, sometimes with other software you already use or is low cost.</p>
+                <p>We could work toghether collaboratively, I'm an advisor, coach, consultant, whatever makes you feel
+                    good to call me.
+                    We'll have regular meetings.
+                    Your projects go to the front of the queue.
+                    We'll talk about your goals and how to best reach them. </p>
+                <p>I'll help you use your data to make better decisions</p>
+
+                <p>I break things into milestones and for each invoice I send a spreadsheet of which items are crossed
+                    off.</p>
+                <h2>Cost:</h2>
+                <p>If it's more than a one time, short fix, I'll propose a full project with service agreement and
+                    schedule. Project work like this works out to about $3,000/month for longer term projects,
+                    it takes 2 months of work to complete most projects.</p>
+                <p> But it depends at the pace and complexity of your project.</p>
+
+
+                <p>Advising starts at $1,000/month for newer, smaller businesses, larger established companies with complex systems will
                     be around $4,000/month.</p>
-                <p>4. If you need me on site for it is $1,000/day + expenses.</p>
 
                 <div class="columns">
                     <div>
@@ -566,7 +563,8 @@
                         <img src="assets/images/Isaac Holmgren.jpg" alt="">
                         <h3><strong>Isaac Holmgren</strong></h3>
                         <p>When I needed an outside perspective on my business operations and financial planning,
-                            <strong>Daniel was my first call.</strong></p>
+                            <strong>Daniel was my first call.</strong>
+                        </p>
                         <p><mark>Owner</mark> Labtorio</p>
                     </div>
                     <div class="testimonial">
@@ -638,12 +636,31 @@
                 </div>
 
                 <p class="contact-info">
-                    <strong>phone</strong> 360-909-5826<br>
-                    <strong>email</strong> 
-                        href="mailto:business@danielphayward.com">business@danielphayward.com</a>
+                    <strong>phone</strong> 
+                    <a href="#" onclick="copyToClipboard('360-909-5826', 'phone-copy-message'); return false;">360-909-5826</a>
+                    <span id="phone-copy-message" style="display: none; margin-left: 5px; color: green;">Phone copied!</span>
+                    <br>
+                    <strong>email</strong>
+                    <a href="#" onclick="copyToClipboard('business@danielphayward.com', 'email-copy-message'); return false;">business@danielphayward.com</a>
+                    <span id="email-copy-message" style="display: none; margin-left: 5px; color: green;">Email copied!</span>
+                
+                    <script>
+                        function copyToClipboard(text, messageId) {
+                            navigator.clipboard.writeText(text).then(function () {
+                                // Show the success message
+                                var message = document.getElementById(messageId);
+                                message.style.display = 'inline';
+                
+                                // Hide the message after 2 seconds
+                                setTimeout(function () {
+                                    message.style.display = 'none';
+                                }, 2000);
+                            });
+                        }
+                    </script>
                 </p>
 
-                <p class="contact-info">© Daniel Hayward. All rights reserved.</p>
+                <p class="contact-info">© Daniel Hayward 2025. All rights reserved.</p>
             </section>
         </div>
     </div>
