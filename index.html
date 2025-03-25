@@ -254,6 +254,8 @@
             justify-content: center;
             align-items: center;
             transition: all 0.3s ease;
+            transform-origin: center;
+            height: 100px;
         }
 
         .logo-item a {
@@ -268,6 +270,9 @@
             opacity: 0.6;
             filter: grayscale(100%);
             transition: all 0.3s ease;
+            height: 70px;             /* Set a consistent height for all logos */
+            max-width: 100;             /* Maintain aspect ratio */
+            object-fit: contain;
         }
 
         .logo-item:hover {
