@@ -249,34 +249,47 @@
         }
 
         .logo-item {
-            width: 100%;
+            width: 100px;
+            /* Fixed width */
+            height: 100px;
+            /* Fixed height */
             display: flex;
             justify-content: center;
             align-items: center;
             transition: all 0.3s ease;
             transform-origin: center;
-            height: 100px;
+            position: relative;
+            /* Added for positioning context */
         }
 
         .logo-item a {
-            display: block;
+            display: flex;
+            /* Changed from block to flex */
             width: 100%;
-            text-align: center;
+            height: 100%;
+            /* Added height */
+            justify-content: center;
+            /* Center horizontally */
+            align-items: center;
+            /* Center vertically */
         }
 
         .logo-item img {
-            max-width: 100%;
-            max-height: 3.5rem;
+            max-width: 80%;
+            /* Slightly reduced to create some padding */
+            max-height: 80%;
+            /* Slightly reduced to create some padding */
             opacity: 0.6;
             filter: grayscale(100%);
             transition: all 0.3s ease;
-            height: 70px;             /* Set a consistent height for all logos */
-            max-width: 100;             /* Maintain aspect ratio */
             object-fit: contain;
+            /* Maintain aspect ratio */
         }
 
         .logo-item:hover {
             transform: scale(2);
+            z-index: 10;
+            /* Ensures the hovered logo appears above others */
         }
 
         .logo-item:hover img {
@@ -624,11 +637,6 @@
                         <div class="logo-item">
                             <a href="https://www.renewcreations.com/">
                                 <img src="assets/images/renew_logo.avif" alt="Renew Design+Build" />
-                            </a>
-                        </div>
-                        <div class="logo-item">
-                            <a href="https://msdpdx.com/">
-                                <img src="assets/images/msd_logo.png" alt="Main Street Development" />
                             </a>
                         </div>
                         <div class="logo-item">
