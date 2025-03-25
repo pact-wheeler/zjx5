@@ -504,6 +504,32 @@
             }
         </script>
     </p>
+    <p class="contact-info">
+        <strong>phone</strong>
+        <a href="#" onclick="copyToClipboard('360-909-5826', 'phone-copy-message'); return false;">360-909-5826</a>
+        <span id="phone-copy-message" style="display: none; margin-left: 5px; color: green;">Phone copied!</span>
+        <br>
+        <strong>email</strong>
+        <a href="#"
+            onclick="copyToClipboard('business@danielphayward.com', 'email-copy-message'); return false;">business@danielphayward.com</a>
+        <span id="email-copy-message" style="display: none; margin-left: 5px; color: green;">Email copied!</span>
+
+        <script>
+            function copyToClipboard(text, messageId) {
+                navigator.clipboard.writeText(text).then(function () {
+                    // Show the success message
+                    var message = document.getElementById(messageId);
+                    message.style.display = 'inline';
+
+                    // Hide the message after 2 seconds
+                    setTimeout(function () {
+                        message.style.display = 'none';
+                    }, 2000);
+                });
+            }
+        </script>
+    </p>
+
 
     <p class="contact-info">© Daniel Hayward 2025. All rights reserved.</p>
     </section>
